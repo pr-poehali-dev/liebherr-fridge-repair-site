@@ -1,0 +1,24 @@
+{
+  "tests": [
+    {
+      "name": "OPTIONS preflight",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Валидация — пустое тело",
+      "method": "POST",
+      "path": "/",
+      "body": {},
+      "expectedStatus": 400
+    },
+    {
+      "name": "Успешная заявка",
+      "method": "POST",
+      "path": "/",
+      "body": {"name": "Тест", "phone": "+79001234567", "model": "Liebherr CBN 4898", "description": "Не морозит"},
+      "expectedStatus": 200
+    }
+  ]
+}

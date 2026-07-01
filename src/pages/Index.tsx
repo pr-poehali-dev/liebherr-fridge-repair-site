@@ -1,4 +1,34 @@
 import { useState } from 'react';
+
+const ORDER_URL = 'https://functions.poehali.dev/cdc5da99-f325-4f94-9d93-169dfd398a35';
+
+type FormState = 'idle' | 'loading' | 'success' | 'error';
+
+function useOrderForm() {
+  const [state, setState] = useState<FormState>('idle');
+  const [fields, setFields] = useState({ name: '', phone: '', model: '', description: '' });
+
+  const set = (k: keyof typeof fields) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setFields((f) => ({ ...f, [k]: e.target.value }));
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!fields.name || !fields.phone) return;
+    setState('loading');
+    try {
+      const res = await fetch(ORDER_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(fields),
+      });
+      setState(res.ok ? 'success' : 'error');
+    } catch {
+      setState('error');
+    }
+  };
+
+  return { state, fields, set, submit };
+}
 import Icon from '@/components/ui/icon';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -59,6 +89,46 @@ const REVIEWS = [
   { name: 'Дмитрий К.', text: 'Профессионалы своего дела. Оригинальные детали, чек, гарантия 3 года. Рекомендую всем владельцам Liebherr.', rating: 5 },
   { name: 'Елена В.', text: 'Отремонтировали No Frost, объяснили причину поломки. Цена честная, без накруток. Спасибо!', rating: 5 },
 ];
+
+const OrderForm = ({ className = '' }: { className?: string }) => {
+  const { state, fields, set, submit } = useOrderForm();
+
+  if (state === 'success') {
+    return (
+      <div className={`flex flex-col items-center justify-center gap-4 rounded-2xl bg-white p-10 text-center shadow-2xl ${className}`}>
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+          <Icon name="CheckCircle" size={36} className="text-green-600" />
+        </div>
+        <h3 className="font-display text-2xl font-700 text-primary">Заявка принята!</h3>
+        <p className="text-muted-foreground">Мы перезвоним вам в течение 5 минут и согласуем время выезда мастера.</p>
+      </div>
+    );
+  }
+
+  return (
+    <form className={`rounded-2xl bg-white p-6 shadow-2xl sm:p-8 ${className}`} onSubmit={submit}>
+      <h2 className="font-display text-2xl font-600 text-primary">Вызвать мастера на дом</h2>
+      <p className="mt-1 text-sm text-muted-foreground">Перезвоним в течение 5 минут и согласуем время выезда</p>
+      <div className="mt-6 space-y-4">
+        <Input placeholder="Ваше имя *" value={fields.name} onChange={set('name')} required />
+        <Input placeholder="Телефон *" type="tel" value={fields.phone} onChange={set('phone')} required />
+        <Input placeholder="Модель холодильника (если знаете)" value={fields.model} onChange={set('model')} />
+        <Textarea placeholder="Опишите проблему" rows={3} value={fields.description} onChange={set('description')} />
+        {state === 'error' && (
+          <p className="text-sm text-red-500">Произошла ошибка. Позвоните нам напрямую.</p>
+        )}
+        <Button type="submit" size="lg" className="w-full" disabled={state === 'loading'}>
+          {state === 'loading'
+            ? <><Icon name="Loader2" size={18} className="mr-2 animate-spin" /> Отправляем...</>
+            : <><Icon name="Send" size={18} className="mr-2" /> Оставить заявку</>}
+        </Button>
+        <p className="text-center text-xs text-muted-foreground">
+          Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
+        </p>
+      </div>
+    </form>
+  );
+};
 
 const Index = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -141,21 +211,8 @@ const Index = () => {
           </div>
 
           {/* Order form */}
-          <div id="order" className="animate-fade-up rounded-2xl bg-white p-6 text-foreground shadow-2xl sm:p-8">
-            <h2 className="font-display text-2xl font-600 text-primary">Вызвать мастера на дом</h2>
-            <p className="mt-1 text-sm text-muted-foreground">Перезвоним в течение 5 минут и согласуем время выезда</p>
-            <form className="mt-6 space-y-4" onSubmit={(e) => e.preventDefault()}>
-              <Input placeholder="Ваше имя" />
-              <Input placeholder="Телефон" type="tel" />
-              <Input placeholder="Модель холодильника (если знаете)" />
-              <Textarea placeholder="Опишите проблему" rows={3} />
-              <Button type="submit" size="lg" className="w-full">
-                <Icon name="Send" size={18} className="mr-2" /> Оставить заявку
-              </Button>
-              <p className="text-center text-xs text-muted-foreground">
-                Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
-              </p>
-            </form>
+          <div id="order" className="animate-fade-up text-foreground">
+            <OrderForm />
           </div>
         </div>
       </section>
@@ -392,15 +449,7 @@ const Index = () => {
               </div>
             </div>
           </div>
-          <div className="rounded-2xl bg-white p-8 text-foreground shadow-2xl">
-            <h3 className="font-display text-2xl font-600 text-primary">Заказать ремонт</h3>
-            <form className="mt-6 space-y-4" onSubmit={(e) => e.preventDefault()}>
-              <Input placeholder="Ваше имя" />
-              <Input placeholder="Телефон" type="tel" />
-              <Textarea placeholder="Что случилось с холодильником?" rows={3} />
-              <Button type="submit" size="lg" className="w-full">Отправить заявку</Button>
-            </form>
-          </div>
+          <OrderForm />
         </div>
       </section>
 
