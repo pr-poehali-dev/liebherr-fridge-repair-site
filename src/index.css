@@ -5,32 +5,32 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 213 60% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 213 60% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 213 60% 12%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 211 100% 30%;
+    --primary-foreground: 0 0% 100%;
 
     --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary-foreground: 211 100% 30%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 210 30% 96%;
+    --muted-foreground: 213 15% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 199 89% 48%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --ring: 211 100% 30%;
 
     --radius: 0.5rem;
 
@@ -97,5 +97,47 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: "IBM Plex Sans", sans-serif;
   }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  .font-display {
+    font-family: "Oswald", sans-serif;
+  }
+}
+
+.hero-gradient {
+  background: linear-gradient(
+    135deg,
+    hsl(213 70% 14%) 0%,
+    hsl(211 100% 24%) 55%,
+    hsl(199 89% 38%) 100%
+  );
+}
+
+.hover-lift {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px -12px hsl(211 100% 30% / 0.25);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-up {
+  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
