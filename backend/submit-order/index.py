@@ -12,7 +12,7 @@ SMTP_HOST = 'smtp.yandex.ru'
 SMTP_PORT = 465
 SMTP_USER = 'remcentrrbt@yandex.ru'
 SMTP_PASSWORD = 'fyojaodejvtgxkjx'
-SMTP_TO = 'Zayavkirbt@yandex.ru'
+SMTP_TO = 'remcentrrbt@yandex.ru'
 
 
 def handler(event: dict, context) -> dict:
