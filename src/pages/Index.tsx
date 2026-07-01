@@ -18,6 +18,7 @@ const NAV = [
   { label: 'Портфолио', href: '#portfolio' },
   { label: 'Прайс', href: '#pricing' },
   { label: 'Отзывы', href: '#reviews' },
+  { label: 'Гарантии', href: '#guarantees' },
   { label: 'Контакты', href: '#contacts' },
 ];
 
@@ -305,6 +306,43 @@ const Index = () => {
               </div>
             </Card>
           ))}
+        </div>
+      </section>
+
+      {/* Guarantees */}
+      <section id="guarantees" className="bg-muted/50 py-20">
+        <div className="container">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="font-display text-sm font-600 uppercase tracking-[0.2em] text-accent">Гарантии</span>
+            <h2 className="mt-3 font-display text-3xl font-700 text-primary sm:text-4xl">Работаем с полной ответственностью</h2>
+            <p className="mt-3 text-muted-foreground">Каждый ремонт подтверждается официальными документами</p>
+          </div>
+          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {[
+              { icon: 'FileText', title: 'Официальный договор', text: 'Заключаем договор на выполнение работ перед началом ремонта. Всё прозрачно и юридически закреплено.' },
+              { icon: 'ShieldCheck', title: 'Гарантия до 3 лет', text: 'На все виды ремонта и установленные запчасти. Гарантийный талон выдаётся сразу по завершении работ.' },
+              { icon: 'Package', title: 'Оригинальные запчасти', text: 'Работаем только с сертифицированными деталями Liebherr с подтверждёнными документами качества.' },
+              { icon: 'ReceiptText', title: 'Чек и акт выполненных работ', text: 'Выдаём кассовый чек и подробный акт с перечнем всех проведённых работ и замененных деталей.' },
+              { icon: 'PhoneCall', title: 'Гарантийная поддержка', text: 'Если в гарантийный период возникнут вопросы — мастер приедет повторно бесплатно.' },
+              { icon: 'BadgeCheck', title: 'Сертифицированные мастера', text: 'Наши инженеры имеют профильное образование и прошли официальное обучение по технике Liebherr.' },
+            ].map((g) => (
+              <div key={g.title} className="hover-lift relative overflow-hidden rounded-2xl border border-primary/10 bg-white p-7 shadow-sm">
+                <div className="absolute right-0 top-0 h-24 w-24 rounded-bl-full bg-primary/5" />
+                <div className="flex h-13 w-13 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-md">
+                  <Icon name={g.icon} size={26} />
+                </div>
+                <h3 className="mt-5 font-display text-xl font-600 text-primary">{g.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{g.text}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mx-auto mt-12 flex max-w-3xl flex-col items-center gap-4 rounded-2xl bg-primary p-8 text-center text-primary-foreground sm:flex-row sm:text-left">
+            <Icon name="Shield" size={48} className="shrink-0 text-sky-300" />
+            <div>
+              <div className="font-display text-xl font-700">Не устраивает результат — вернём деньги</div>
+              <div className="mt-1 text-sm text-primary-foreground/80">Если ремонт не устранил неисправность, мы возвращаем полную стоимость работ. Без споров и условий.</div>
+            </div>
+          </div>
         </div>
       </section>
 
