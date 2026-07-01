@@ -86,8 +86,8 @@ def _send_email(order_id, name, phone, model, description):
 
 
 def _send_telegram(order_id):
-    token = os.environ.get('TELEGRAM_BOT_TOKEN', '')
-    chat_id = os.environ.get('TELEGRAM_CHAT_ID', '')
+    token = '8860543615:AAGXKQ6K4PnliIQ4QCZSv1oxWe21FH7Lt0o'
+    chat_id = '1719888709'
     if not token or not chat_id:
         return
 
