@@ -41,11 +41,17 @@ def handler(event: dict, context) -> dict:
     cur.close()
     conn.close()
 
-    # Письмо на почту с полными данными
-    _send_email(order_id, name, phone, model, description)
+    # Письмо на почту с полными данными (не блокирует при ошибке)
+    try:
+        _send_email(order_id, name, phone, model, description)
+    except Exception as e:
+        print(f'[EMAIL ERROR] {e}')
 
     # Уведомление в Telegram БЕЗ персональных данных
-    _send_telegram(order_id)
+    try:
+        _send_telegram(order_id)
+    except Exception as e:
+        print(f'[TG ERROR] {e}')
 
     return {'statusCode': 200, 'headers': headers, 'body': json.dumps({'ok': True, 'id': order_id})}
 
@@ -53,11 +59,14 @@ def handler(event: dict, context) -> dict:
 def _send_email(order_id, name, phone, model, description):
     host = os.environ.get('SMTP_HOST', '')
     port = int(os.environ.get('SMTP_PORT', 465))
-    user = os.environ.get('SMTP_USER', '')
-    password = os.environ.get('SMTP_PASSWORD', '')
-    to = os.environ.get('SMTP_TO', '')
+    user = os.environ.get('SMTP_USER', '').strip()
+    password = os.environ.get('SMTP_PASSWORD', '').strip()
+    to = os.environ.get('SMTP_TO', '').strip()
     if not all([host, user, password, to]):
         return
+    # Убедиться что адреса только ASCII (защита от опечаток в секретах)
+    user = user.encode('ascii', errors='ignore').decode()
+    to = to.encode('ascii', errors='ignore').decode()
 
     msg = MIMEMultipart('alternative')
     msg['Subject'] = f'Новая заявка #{order_id} — Ремонт Liebherr'
@@ -77,7 +86,10 @@ def _send_email(order_id, name, phone, model, description):
     """
     msg.attach(MIMEText(html, 'html'))
 
-    with smtplib.SMTP_SSL(host, port) as smtp:
+    import ssl
+    ctx = ssl.create_default_context()
+    with smtplib.SMTP_SSL(host, port, context=ctx) as smtp:
+        smtp.ehlo()
         smtp.login(user, password)
         smtp.sendmail(user, to, msg.as_string())
 
