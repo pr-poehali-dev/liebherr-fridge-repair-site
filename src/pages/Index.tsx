@@ -18,7 +18,6 @@ const NAV = [
   { label: 'Портфолио', href: '#portfolio' },
   { label: 'Прайс', href: '#pricing' },
   { label: 'Отзывы', href: '#reviews' },
-  { label: 'Блог', href: '#blog' },
   { label: 'Контакты', href: '#contacts' },
 ];
 
@@ -58,12 +57,6 @@ const REVIEWS = [
   { name: 'Анна М.', text: 'Мастер приехал через 2 часа после звонка, быстро нашёл поломку и заменил компрессор. Холодильник работает как новый!', rating: 5 },
   { name: 'Дмитрий К.', text: 'Профессионалы своего дела. Оригинальные детали, чек, гарантия 3 года. Рекомендую всем владельцам Liebherr.', rating: 5 },
   { name: 'Елена В.', text: 'Отремонтировали No Frost, объяснили причину поломки. Цена честная, без накруток. Спасибо!', rating: 5 },
-];
-
-const BLOG = [
-  { title: 'Почему холодильник Liebherr перестал морозить', tag: 'Диагностика', date: '18 июня 2026' },
-  { title: 'Как продлить срок службы системы BioFresh', tag: 'Советы', date: '5 июня 2026' },
-  { title: 'Наледь в No Frost: причины и решение', tag: 'Ремонт', date: '22 мая 2026' },
 ];
 
 const Index = () => {
@@ -312,35 +305,6 @@ const Index = () => {
               </div>
             </Card>
           ))}
-        </div>
-      </section>
-
-      {/* Blog */}
-      <section id="blog" className="bg-muted/50 py-20">
-        <div className="container">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="font-display text-sm font-600 uppercase tracking-[0.2em] text-accent">Блог</span>
-            <h2 className="mt-3 font-display text-3xl font-700 text-primary sm:text-4xl">Полезные статьи</h2>
-          </div>
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {BLOG.map((b) => (
-              <Card key={b.title} className="hover-lift group cursor-pointer overflow-hidden">
-                <div className="hero-gradient flex h-40 items-center justify-center text-white">
-                  <Icon name="Newspaper" size={40} />
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                    <span className="rounded-full bg-accent/10 px-2.5 py-0.5 font-medium text-accent">{b.tag}</span>
-                    <span>{b.date}</span>
-                  </div>
-                  <h3 className="mt-3 font-display text-lg font-600 transition-colors group-hover:text-accent">{b.title}</h3>
-                  <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                    Читать <Icon name="ArrowRight" size={14} />
-                  </span>
-                </div>
-              </Card>
-            ))}
-          </div>
         </div>
       </section>
 
