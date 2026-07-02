@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const ORDER_URL = 'https://functions.poehali.dev/cdc5da99-f325-4f94-9d93-169dfd398a35';
 
@@ -480,7 +481,7 @@ const Index = () => {
             <span className="font-display text-lg font-700 tracking-wide">LIEBHERR СЕРВИС</span>
           </div>
           <p className="text-sm text-primary-foreground/70">© 2012 Сервисный центр Liebherr. Все права защищены.</p>
-          <p className="text-sm text-primary-foreground/50">Не является публичной офертой.</p>
+          <p className="text-sm text-primary-foreground/50">Не является публичной офертой. <Link to="/privacy" className="underline hover:text-primary-foreground/80">Политика конфиденциальности</Link></p>
         </div>
       </footer>
     </div>
