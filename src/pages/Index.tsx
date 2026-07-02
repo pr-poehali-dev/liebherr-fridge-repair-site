@@ -339,30 +339,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Portfolio */}
-      <section id="portfolio" className="container py-20">
-        <div className="mx-auto max-w-2xl text-center">
-          <span className="font-display text-sm font-600 uppercase tracking-[0.2em] text-accent">Портфолио</span>
-          <h2 className="mt-3 font-display text-3xl font-700 text-primary sm:text-4xl">Наши работы</h2>
-          <p className="mt-3 text-muted-foreground">Реальные примеры выполненных ремонтов</p>
-        </div>
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {PORTFOLIO.map((p) => (
-            <Card key={p.model} className="hover-lift overflow-hidden">
-              <div className="hero-gradient flex h-32 items-center justify-center text-white">
-                <Icon name="Refrigerator" size={48} />
-              </div>
-              <div className="p-5">
-                <div className="font-display font-600 text-primary">{p.model}</div>
-                <div className="mt-1 text-sm text-muted-foreground">{p.task}</div>
-                <div className="mt-3 flex items-center gap-1.5 text-sm font-medium text-accent">
-                  <Icon name="Clock" size={14} /> {p.time}
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
-      </section>
 
       {/* Pricing */}
       <section id="pricing" className="bg-muted/50 py-20">
