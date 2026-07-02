@@ -422,13 +422,7 @@ const Index = () => {
               </div>
             ))}
           </div>
-          <div className="mx-auto mt-12 flex max-w-3xl flex-col items-center gap-4 rounded-2xl bg-primary p-8 text-center text-primary-foreground sm:flex-row sm:text-left">
-            <Icon name="Shield" size={48} className="shrink-0 text-sky-300" />
-            <div>
-              <div className="font-display text-xl font-700">Не устраивает результат — вернём деньги</div>
-              <div className="mt-1 text-sm text-primary-foreground/80">Если ремонт не устранил неисправность, мы возвращаем полную стоимость работ. Без споров и условий.</div>
-            </div>
-          </div>
+
         </div>
       </section>
 
