@@ -132,11 +132,64 @@ const OrderForm = ({ className = '' }: { className?: string }) => {
   );
 };
 
+const QuickOrderModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
+  const { state, fields, set, submit } = useOrderForm();
+
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+      <div className="relative w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+        {state === 'success' ? (
+          <div className="flex flex-col items-center gap-4 rounded-2xl bg-white p-10 text-center shadow-2xl">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+              <Icon name="CheckCircle" size={36} className="text-green-600" />
+            </div>
+            <h3 className="font-display text-2xl font-700 text-primary">Заявка принята!</h3>
+            <p className="text-muted-foreground">Мы перезвоним вам в течение 5 минут и согласуем время выезда мастера.</p>
+            <Button className="w-full" onClick={onClose}>Закрыть</Button>
+          </div>
+        ) : (
+          <form className="rounded-2xl bg-white p-6 shadow-2xl sm:p-8" onSubmit={submit}>
+            <div className="flex items-start justify-between">
+              <div>
+                <h2 className="font-display text-2xl font-600 text-primary">Заказать выезд мастера</h2>
+                <p className="mt-1 text-sm text-muted-foreground">Перезвоним в течение 5 минут</p>
+              </div>
+              <button type="button" onClick={onClose} className="ml-4 text-muted-foreground hover:text-foreground">
+                <Icon name="X" size={22} />
+              </button>
+            </div>
+            <div className="mt-6 space-y-4">
+              <Input placeholder="Ваше имя *" value={fields.name} onChange={set('name')} required />
+              <Input placeholder="Телефон *" type="tel" value={fields.phone} onChange={set('phone')} required />
+              {state === 'error' && (
+                <p className="text-sm text-red-500">Произошла ошибка. Позвоните нам напрямую.</p>
+              )}
+              <Button type="submit" size="lg" className="w-full" disabled={state === 'loading'}>
+                {state === 'loading'
+                  ? <><Icon name="Loader2" size={18} className="mr-2 animate-spin" /> Отправляем...</>
+                  : <><Icon name="Send" size={18} className="mr-2" /> Оставить заявку</>}
+              </Button>
+              <p className="text-center text-xs text-muted-foreground">
+                Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
+              </p>
+            </div>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const Index = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <QuickOrderModal open={modalOpen} onClose={() => setModalOpen(false)} />
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border/60 bg-white/90 backdrop-blur-md">
         <div className="container flex h-16 items-center justify-between">
@@ -193,8 +246,8 @@ const Index = () => {
               Восстановим работу вашего холодильника в день обращения. Оригинальные запчасти, гарантия до 3 лет, честные цены.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-                <a href="#order"><Icon name="Wrench" size={18} className="mr-2" />Заказать выезд мастера</a>
+              <Button size="lg" className="bg-white text-primary hover:bg-white/90" onClick={() => setModalOpen(true)}>
+                <Icon name="Wrench" size={18} className="mr-2" />Заказать выезд мастера
               </Button>
               <Button asChild size="lg" variant="outline" className="border-white/40 bg-transparent text-white hover:bg-white/10">
                 <a href={PHONE_TEL}><Icon name="Phone" size={18} className="mr-2" />Позвонить</a>
