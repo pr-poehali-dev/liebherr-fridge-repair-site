@@ -410,7 +410,7 @@ const Index = () => {
               { icon: 'Package', title: 'Оригинальные запчасти', text: 'Используем только оригинальные детали Liebherr, обеспечивающие надёжность и долгий срок службы техники.' },
               { icon: 'ReceiptText', title: 'Акт выполненных работ', text: 'Выдаём подробный акт с перечнем всех проведённых работ и замененных деталей.' },
               { icon: 'PhoneCall', title: 'Гарантийная поддержка', text: 'Если в гарантийный период возникнут вопросы — мастер приедет повторно бесплатно.' },
-              { icon: 'BadgeCheck', title: 'Сертифицированные мастера', text: 'Наши инженеры имеют профильное образование и прошли официальное обучение по технике Liebherr.' },
+              { icon: 'BadgeCheck', title: 'Профильные специалисты', text: 'Наши инженеры имеют профильное образование и прошли обучение по обслуживанию техники Liebherr.' },
             ].map((g) => (
               <div key={g.title} className="hover-lift relative overflow-hidden rounded-2xl border border-primary/10 bg-white p-7 shadow-sm">
                 <div className="absolute right-0 top-0 h-24 w-24 rounded-bl-full bg-primary/5" />
