@@ -285,12 +285,21 @@ const Index = () => {
       {/* About */}
       <section id="about" className="container py-20">
         <div className="grid items-center gap-12 lg:grid-cols-2">
-          <div className="overflow-hidden rounded-2xl shadow-xl">
+          <div className="relative overflow-hidden rounded-2xl shadow-xl">
             <img
-              src="https://cdn.poehali.dev/projects/2bad4f0d-9b26-462e-bd9c-740ae791c0d2/files/8ee4235c-2ba1-4b9d-b7c2-7d155fa7f407.jpg"
+              src="https://cdn.poehali.dev/projects/2bad4f0d-9b26-462e-bd9c-740ae791c0d2/files/1b62734f-e805-48f3-8d77-18aef4b120ec.jpg"
               alt="Мастер по ремонту холодильников Liebherr"
               className="h-full w-full object-cover"
             />
+            <div className="absolute bottom-4 left-4 flex items-center gap-2 rounded-xl bg-white/90 px-4 py-2 shadow-lg backdrop-blur-sm">
+              <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary">
+                <span className="text-[10px] font-900 text-white">L</span>
+              </div>
+              <div className="leading-tight">
+                <div className="text-xs font-700 uppercase tracking-widest text-primary">Liebherr</div>
+                <div className="text-[10px] text-muted-foreground">Авторизованный сервис</div>
+              </div>
+            </div>
           </div>
           <div>
             <span className="font-display text-sm font-600 uppercase tracking-[0.2em] text-accent">О сервисе</span>
