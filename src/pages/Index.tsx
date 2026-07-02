@@ -287,7 +287,7 @@ const Index = () => {
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div className="overflow-hidden rounded-2xl shadow-xl">
             <img
-              src="https://cdn.poehali.dev/projects/2bad4f0d-9b26-462e-bd9c-740ae791c0d2/files/db77e0ee-aacc-4ea5-acdb-79fd4dbb6462.jpg"
+              src="https://cdn.poehali.dev/projects/2bad4f0d-9b26-462e-bd9c-740ae791c0d2/files/f3d29ced-272c-40cc-9f72-02e7ca0c6712.jpg"
               alt="Мастер по ремонту холодильников Liebherr"
               className="h-full w-full object-cover"
             />
