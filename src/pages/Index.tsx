@@ -461,9 +461,7 @@ const Index = () => {
               <a href={PHONE_TEL} className="flex items-center gap-3 text-lg font-700 text-white">
                 <Icon name="Phone" size={22} className="text-sky-300" /> {PHONE_DISPLAY}
               </a>
-              <div className="flex items-center gap-3 text-lg">
-                <Icon name="Mail" size={22} className="text-sky-300" /> service@liebherr-repair.ru
-              </div>
+
               <div className="flex items-center gap-3 text-lg">
                 <Icon name="MapPin" size={22} className="text-sky-300" /> Москва и область
               </div>
@@ -480,10 +478,9 @@ const Index = () => {
       <footer className="bg-primary py-10 text-primary-foreground">
         <div className="container flex flex-col items-center justify-between gap-4 sm:flex-row">
           <div className="flex items-center gap-2">
-            <Icon name="Wrench" size={20} />
             <span className="font-display text-lg font-700 tracking-wide">LIEBHERR СЕРВИС</span>
           </div>
-          <p className="text-sm text-primary-foreground/70">© 2026 Сервисный центр Liebherr. Все права защищены.</p>
+          <p className="text-sm text-primary-foreground/70">© 2012 Сервисный центр Liebherr. Все права защищены.</p>
         </div>
       </footer>
     </div>
