@@ -2,8 +2,8 @@ import { useState } from 'react';
 
 const ORDER_URL = 'https://functions.poehali.dev/cdc5da99-f325-4f94-9d93-169dfd398a35';
 
-const PHONE_DISPLAY = '+7 (499) 638-27-51';
-const PHONE_TEL = 'tel:+74996382751';
+const PHONE_DISPLAY = '8 (499) 638-27-51';
+const PHONE_TEL = 'tel:74996382751';
 
 type FormState = 'idle' | 'loading' | 'success' | 'error';
 
@@ -207,7 +207,7 @@ const Index = () => {
             ))}
           </nav>
           <div className="hidden items-center gap-3 lg:flex">
-            <a href={PHONE_TEL} className="text-sm font-700 text-foreground">{PHONE_DISPLAY}</a>
+            <a href={PHONE_TEL} className="mgo-number text-sm font-700 text-foreground">{PHONE_DISPLAY}</a>
             <Button asChild size="sm">
               <a href="#order">Вызвать мастера</a>
             </Button>
@@ -250,7 +250,7 @@ const Index = () => {
                 <Icon name="Wrench" size={18} className="mr-2" />Заказать выезд мастера
               </Button>
               <Button asChild size="lg" variant="outline" className="border-white/40 bg-transparent text-white hover:bg-white/10">
-                <a href={PHONE_TEL}><Icon name="Phone" size={18} className="mr-2" />Позвонить</a>
+                <a href={PHONE_TEL} className="mgo-number"><Icon name="Phone" size={18} className="mr-2" />Позвонить</a>
               </Button>
             </div>
             <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3">
@@ -458,7 +458,7 @@ const Index = () => {
               Свяжитесь с нами удобным способом — ответим на вопросы и запишем на ремонт.
             </p>
             <div className="mt-8 space-y-4">
-              <a href={PHONE_TEL} className="flex items-center gap-3 text-lg font-700 text-white">
+              <a href={PHONE_TEL} className="mgo-number flex items-center gap-3 text-lg font-700 text-white">
                 <Icon name="Phone" size={22} className="text-sky-300" /> {PHONE_DISPLAY}
               </a>
 
