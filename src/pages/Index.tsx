@@ -481,6 +481,7 @@ const Index = () => {
             <span className="font-display text-lg font-700 tracking-wide">LIEBHERR СЕРВИС</span>
           </div>
           <p className="text-sm text-primary-foreground/70">© 2012 Сервисный центр Liebherr. Все права защищены.</p>
+          <p className="text-sm text-primary-foreground/50">Не является публичной офертой.</p>
         </div>
       </footer>
     </div>
