@@ -2,8 +2,8 @@ import { useState } from 'react';
 
 const ORDER_URL = 'https://functions.poehali.dev/cdc5da99-f325-4f94-9d93-169dfd398a35';
 
-const PHONE_DISPLAY = '+7 (495) 123-45-67';
-const PHONE_TEL = 'tel:+74951234567';
+const PHONE_DISPLAY = '+7 (499) 638-27-51';
+const PHONE_TEL = 'tel:+74996382751';
 
 type FormState = 'idle' | 'loading' | 'success' | 'error';
 
