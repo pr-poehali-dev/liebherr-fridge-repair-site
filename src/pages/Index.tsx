@@ -48,7 +48,6 @@ const NAV = [
   { label: 'Главная', href: '#home' },
   { label: 'О сервисе', href: '#about' },
   { label: 'Услуги', href: '#services' },
-  { label: 'Портфолио', href: '#portfolio' },
   { label: 'Прайс', href: '#pricing' },
   { label: 'Отзывы', href: '#reviews' },
   { label: 'Гарантии', href: '#guarantees' },
