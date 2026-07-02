@@ -2,6 +2,9 @@ import { useState } from 'react';
 
 const ORDER_URL = 'https://functions.poehali.dev/cdc5da99-f325-4f94-9d93-169dfd398a35';
 
+const PHONE_DISPLAY = '+7 (495) 123-45-67';
+const PHONE_TEL = 'tel:+74951234567';
+
 type FormState = 'idle' | 'loading' | 'success' | 'error';
 
 function useOrderForm() {
@@ -151,7 +154,7 @@ const Index = () => {
             ))}
           </nav>
           <div className="hidden items-center gap-3 lg:flex">
-            <a href="tel:+74951234567" className="text-sm font-700 text-foreground">+7 (495) 123-45-67</a>
+            <a href={PHONE_TEL} className="text-sm font-700 text-foreground">{PHONE_DISPLAY}</a>
             <Button asChild size="sm">
               <a href="#order">Вызвать мастера</a>
             </Button>
@@ -194,7 +197,7 @@ const Index = () => {
                 <a href="#order"><Icon name="Wrench" size={18} className="mr-2" />Заказать выезд мастера</a>
               </Button>
               <Button asChild size="lg" variant="outline" className="border-white/40 bg-transparent text-white hover:bg-white/10">
-                <a href="tel:+74951234567"><Icon name="Phone" size={18} className="mr-2" />Позвонить</a>
+                <a href={PHONE_TEL}><Icon name="Phone" size={18} className="mr-2" />Позвонить</a>
               </Button>
             </div>
             <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3">
@@ -432,8 +435,8 @@ const Index = () => {
               Свяжитесь с нами удобным способом — ответим на вопросы и запишем на ремонт.
             </p>
             <div className="mt-8 space-y-4">
-              <a href="tel:+74951234567" className="flex items-center gap-3 text-lg font-700 text-white">
-                <Icon name="Phone" size={22} className="text-sky-300" /> +7 (495) 123-45-67
+              <a href={PHONE_TEL} className="flex items-center gap-3 text-lg font-700 text-white">
+                <Icon name="Phone" size={22} className="text-sky-300" /> {PHONE_DISPLAY}
               </a>
               <div className="flex items-center gap-3 text-lg">
                 <Icon name="Mail" size={22} className="text-sky-300" /> service@liebherr-repair.ru
