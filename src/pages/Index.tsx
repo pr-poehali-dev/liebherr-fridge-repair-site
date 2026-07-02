@@ -138,9 +138,6 @@ const Index = () => {
       <header className="sticky top-0 z-50 border-b border-border/60 bg-white/90 backdrop-blur-md">
         <div className="container flex h-16 items-center justify-between">
           <a href="#home" className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <Icon name="Wrench" size={20} />
-            </div>
             <div className="leading-tight">
               <div className="font-display text-lg font-700 tracking-wide text-primary">LIEBHERR</div>
               <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Сервисный центр</div>
