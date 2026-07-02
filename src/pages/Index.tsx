@@ -224,8 +224,8 @@ const Index = () => {
                   {n.label}
                 </a>
               ))}
-              <Button asChild className="mt-2">
-                <a href="#order" onClick={() => setMenuOpen(false)}>Вызвать мастера</a>
+              <Button className="mt-2" onClick={() => { setMenuOpen(false); setModalOpen(true); }}>
+                Заказать выезд мастера
               </Button>
             </nav>
           </div>
