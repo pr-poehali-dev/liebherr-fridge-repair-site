@@ -112,7 +112,6 @@ const OrderForm = ({ className = '' }: { className?: string }) => {
       <div className="mt-6 space-y-4">
         <Input placeholder="Ваше имя *" value={fields.name} onChange={set('name')} required />
         <Input placeholder="Телефон *" type="tel" value={fields.phone} onChange={set('phone')} required />
-        <Input placeholder="Модель холодильника (если знаете)" value={fields.model} onChange={set('model')} />
         <Textarea placeholder="Опишите проблему" rows={3} value={fields.description} onChange={set('description')} />
         {state === 'error' && (
           <p className="text-sm text-red-500">Произошла ошибка. Позвоните нам напрямую.</p>
@@ -140,7 +139,7 @@ const Index = () => {
         <div className="container flex h-16 items-center justify-between">
           <a href="#home" className="flex items-center gap-2">
             <div className="flex h-9 w-9 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <Icon name="Snowflake" size={20} />
+              <Icon name="Wrench" size={20} />
             </div>
             <div className="leading-tight">
               <div className="font-display text-lg font-700 tracking-wide text-primary">LIEBHERR</div>
@@ -155,7 +154,7 @@ const Index = () => {
             ))}
           </nav>
           <div className="hidden items-center gap-3 lg:flex">
-            <a href="tel:+74951234567" className="text-sm font-600 text-primary">+7 (495) 123-45-67</a>
+            <a href="tel:+74951234567" className="text-sm font-700 text-foreground">+7 (495) 123-45-67</a>
             <Button asChild size="sm">
               <a href="#order">Вызвать мастера</a>
             </Button>
@@ -185,7 +184,7 @@ const Index = () => {
         <div className="container grid gap-10 py-16 lg:grid-cols-2 lg:py-24">
           <div className="animate-fade-up">
             <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-sm font-medium backdrop-blur">
-              <Icon name="BadgeCheck" size={16} /> Официальный сервис Liebherr
+              <Icon name="BadgeCheck" size={16} /> Центральный сервис Liebherr
             </span>
             <h1 className="mt-6 font-display text-4xl font-700 leading-tight sm:text-5xl lg:text-6xl">
               Ремонт холодильников <span className="text-sky-300">Liebherr</span> с выездом на дом
@@ -377,6 +376,7 @@ const Index = () => {
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {[
               { icon: 'FileText', title: 'Официальный договор', text: 'Заключаем договор на выполнение работ перед началом ремонта. Всё прозрачно и юридически закреплено.' },
+
               { icon: 'ShieldCheck', title: 'Гарантия до 3 лет', text: 'На все виды ремонта и установленные запчасти. Гарантийный талон выдаётся сразу по завершении работ.' },
               { icon: 'Package', title: 'Оригинальные запчасти', text: 'Работаем только с сертифицированными деталями Liebherr с подтверждёнными документами качества.' },
               { icon: 'ReceiptText', title: 'Чек и акт выполненных работ', text: 'Выдаём кассовый чек и подробный акт с перечнем всех проведённых работ и замененных деталей.' },
@@ -435,7 +435,7 @@ const Index = () => {
               Свяжитесь с нами удобным способом — ответим на вопросы и запишем на ремонт.
             </p>
             <div className="mt-8 space-y-4">
-              <a href="tel:+74951234567" className="flex items-center gap-3 text-lg">
+              <a href="tel:+74951234567" className="flex items-center gap-3 text-lg font-700 text-white">
                 <Icon name="Phone" size={22} className="text-sky-300" /> +7 (495) 123-45-67
               </a>
               <div className="flex items-center gap-3 text-lg">
@@ -457,7 +457,7 @@ const Index = () => {
       <footer className="bg-primary py-10 text-primary-foreground">
         <div className="container flex flex-col items-center justify-between gap-4 sm:flex-row">
           <div className="flex items-center gap-2">
-            <Icon name="Snowflake" size={20} />
+            <Icon name="Wrench" size={20} />
             <span className="font-display text-lg font-700 tracking-wide">LIEBHERR СЕРВИС</span>
           </div>
           <p className="text-sm text-primary-foreground/70">© 2026 Сервисный центр Liebherr. Все права защищены.</p>
