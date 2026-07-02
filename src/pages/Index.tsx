@@ -125,7 +125,7 @@ const OrderForm = ({ className = '' }: { className?: string }) => {
             : <><Icon name="Send" size={18} className="mr-2" /> Оставить заявку</>}
         </Button>
         <p className="text-center text-xs text-muted-foreground">
-          Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
+          Нажимая кнопку, вы соглашаетесь с <Link to="/privacy" className="underline hover:text-foreground">политикой конфиденциальности</Link>
         </p>
       </div>
     </form>
@@ -173,7 +173,7 @@ const QuickOrderModal = ({ open, onClose }: { open: boolean; onClose: () => void
                   : <><Icon name="Send" size={18} className="mr-2" /> Оставить заявку</>}
               </Button>
               <p className="text-center text-xs text-muted-foreground">
-                Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
+                Нажимая кнопку, вы соглашаетесь с <Link to="/privacy" className="underline hover:text-foreground">политикой конфиденциальности</Link>
               </p>
             </div>
           </form>
