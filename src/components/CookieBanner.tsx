@@ -18,6 +18,11 @@ export default function CookieBanner() {
     setVisible(false);
   };
 
+  const decline = () => {
+    localStorage.setItem(COOKIE_KEY, '0');
+    setVisible(false);
+  };
+
   if (!visible) return null;
 
   return (
@@ -30,9 +35,14 @@ export default function CookieBanner() {
           </Link>
           .
         </p>
-        <Button size="sm" onClick={accept} className="shrink-0">
-          Принять
-        </Button>
+        <div className="flex shrink-0 gap-2">
+          <Button size="sm" variant="outline" onClick={decline}>
+            Отказать
+          </Button>
+          <Button size="sm" onClick={accept}>
+            Принять
+          </Button>
+        </div>
       </div>
     </div>
   );
