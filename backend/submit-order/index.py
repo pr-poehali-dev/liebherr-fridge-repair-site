@@ -1,12 +1,10 @@
 import json
-import os
 import smtplib
 import ssl
+import time
 import urllib.request
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
-import psycopg2
 
 SMTP_HOST = 'smtp.yandex.ru'
 SMTP_PORT = 465
@@ -16,7 +14,7 @@ SMTP_TO = 'remcentrrbt@yandex.ru'
 
 
 def handler(event: dict, context) -> dict:
-    """Приём заявки с сайта: сохранение в БД, письмо на почту, уведомление в Telegram."""
+    """Приём заявки с сайта: письмо на почту и уведомление в Telegram (без сохранения в БД)."""
     headers = {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -35,17 +33,7 @@ def handler(event: dict, context) -> dict:
     if not name or not phone:
         return {'statusCode': 400, 'headers': headers, 'body': json.dumps({'error': 'name and phone required'})}
 
-    schema = os.environ['MAIN_DB_SCHEMA']
-    conn = psycopg2.connect(os.environ['DATABASE_URL'])
-    cur = conn.cursor()
-    cur.execute(
-        f"INSERT INTO {schema}.orders (name, phone, model, description) VALUES (%s, %s, %s, %s) RETURNING id",
-        (name, phone, model or None, description or None),
-    )
-    order_id = cur.fetchone()[0]
-    conn.commit()
-    cur.close()
-    conn.close()
+    order_id = int(time.time())
 
     try:
         _send_email(order_id, name, phone, model, description)
@@ -53,7 +41,7 @@ def handler(event: dict, context) -> dict:
         print(f'[EMAIL ERROR] {e}')
 
     try:
-        _send_telegram(order_id)
+        _send_telegram(order_id, name, phone, model, description)
     except Exception as e:
         print(f'[TG ERROR] {e}')
 
@@ -85,13 +73,19 @@ def _send_email(order_id, name, phone, model, description):
         smtp.sendmail(SMTP_USER, SMTP_TO, msg.as_string())
 
 
-def _send_telegram(order_id):
+def _send_telegram(order_id, name, phone, model, description):
     token = '8860543615:AAGXKQ6K4PnliIQ4QCZSv1oxWe21FH7Lt0o'
     chat_id = '1719888709'
     if not token or not chat_id:
         return
 
-    text = f'Новая заявка #{order_id} на ремонт Liebherr. Детали — в почте.'
+    text = (
+        f'Новая заявка #{order_id} на ремонт Liebherr\n'
+        f'Имя: {name}\n'
+        f'Телефон: {phone}\n'
+        f'Модель: {model or "—"}\n'
+        f'Описание: {description or "—"}'
+    )
     url = f'https://api.telegram.org/bot{token}/sendMessage'
     data = json.dumps({'chat_id': chat_id, 'text': text}).encode()
     req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
