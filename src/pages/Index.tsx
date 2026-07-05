@@ -323,7 +323,7 @@ const Index = () => {
           <div className="mx-auto max-w-2xl text-center">
             <span className="font-display text-sm font-600 uppercase tracking-[0.2em] text-accent">Услуги</span>
             <h2 className="mt-3 font-display text-3xl font-700 text-primary sm:text-4xl">Что мы ремонтируем</h2>
-            <p className="mt-3 text-muted-foreground">Решаем любые неисправности холодильников Liebherr</p>
+            <p className="mt-3 text-muted-foreground">Устраняем любые неисправности холодильников Liebherr</p>
           </div>
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {SERVICES.map((s) => (
