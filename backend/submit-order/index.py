@@ -24,6 +24,8 @@ def handler(event: dict, context) -> dict:
     if event.get('httpMethod') == 'OPTIONS':
         return {'statusCode': 200, 'headers': headers, 'body': ''}
 
+
+
     body = json.loads(event.get('body') or '{}')
     name = body.get('name', '').strip()
     phone = body.get('phone', '').strip()
@@ -86,9 +88,13 @@ def _send_telegram(order_id, name, phone, model, description):
     )
     url = f'https://api.telegram.org/bot{token}/sendMessage'
     for chat_id in chat_ids:
-        try:
-            data = json.dumps({'chat_id': chat_id, 'text': text}).encode()
-            req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
-            urllib.request.urlopen(req, timeout=5)
-        except Exception as e:
-            print(f'[TG ERROR] chat_id={chat_id}: {e}')
+        data = json.dumps({'chat_id': chat_id, 'text': text}).encode()
+        for attempt in range(3):
+            try:
+                req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
+                urllib.request.urlopen(req, timeout=10)
+                break
+            except Exception as e:
+                print(f'[TG ERROR] chat_id={chat_id} attempt={attempt + 1}: {e}')
+                if attempt < 2:
+                    time.sleep(1)
