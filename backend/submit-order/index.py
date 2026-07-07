@@ -75,9 +75,7 @@ def _send_email(order_id, name, phone, model, description):
 
 def _send_telegram(order_id, name, phone, model, description):
     token = '8860543615:AAGXKQ6K4PnliIQ4QCZSv1oxWe21FH7Lt0o'
-    chat_id = '1719888709'
-    if not token or not chat_id:
-        return
+    chat_ids = ['1719888709', '8383018904']
 
     text = (
         f'Новая заявка #{order_id} на ремонт Liebherr\n'
@@ -87,6 +85,10 @@ def _send_telegram(order_id, name, phone, model, description):
         f'Описание: {description or "—"}'
     )
     url = f'https://api.telegram.org/bot{token}/sendMessage'
-    data = json.dumps({'chat_id': chat_id, 'text': text}).encode()
-    req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
-    urllib.request.urlopen(req, timeout=5)
+    for chat_id in chat_ids:
+        try:
+            data = json.dumps({'chat_id': chat_id, 'text': text}).encode()
+            req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
+            urllib.request.urlopen(req, timeout=5)
+        except Exception as e:
+            print(f'[TG ERROR] chat_id={chat_id}: {e}')
