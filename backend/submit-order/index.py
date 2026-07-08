@@ -81,20 +81,16 @@ def _send_telegram(order_id, name, phone, model, description):
 
     text = (
         f'Новая заявка #{order_id} на ремонт Liebherr\n'
-        f'Имя: {name}\n'
-        f'Телефон: {phone}\n'
         f'Модель: {model or "—"}\n'
         f'Описание: {description or "—"}'
     )
     url = f'https://api.telegram.org/bot{token}/sendMessage'
     for chat_id in chat_ids:
         data = json.dumps({'chat_id': chat_id, 'text': text}).encode()
-        for attempt in range(3):
+        for attempt in range(2):
             try:
                 req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
-                urllib.request.urlopen(req, timeout=10)
+                urllib.request.urlopen(req, timeout=4)
                 break
             except Exception as e:
                 print(f'[TG ERROR] chat_id={chat_id} attempt={attempt + 1}: {e}')
-                if attempt < 2:
-                    time.sleep(1)
