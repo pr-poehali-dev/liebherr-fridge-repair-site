@@ -250,7 +250,7 @@ const Index = () => {
                 <Icon name="Wrench" size={18} className="mr-2" />Заказать выезд мастера
               </Button>
               <Button asChild size="lg" variant="outline" className="border-white/40 bg-transparent text-white hover:bg-white/10">
-                <a href={PHONE_TEL} className="mgo-number"><Icon name="Phone" size={18} className="mr-2" />Позвонить</a>
+                <a href={PHONE_TEL} className="mgo-number"><Icon name="Phone" size={18} className="mr-2" />{PHONE_DISPLAY}</a>
               </Button>
             </div>
             <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3">
