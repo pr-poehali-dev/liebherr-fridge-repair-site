@@ -8,6 +8,28 @@ const PHONE_TEL = 'tel:74996382751';
 
 type FormState = 'idle' | 'loading' | 'success' | 'error';
 
+const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'] as const;
+
+function getUtmParams() {
+  if (typeof window === 'undefined') return {};
+  const params = new URLSearchParams(window.location.search);
+  const stored = JSON.parse(sessionStorage.getItem('utm_params') || '{}');
+  const current: Record<string, string> = {};
+  let hasNew = false;
+  UTM_KEYS.forEach((k) => {
+    const v = params.get(k);
+    if (v) {
+      current[k] = v;
+      hasNew = true;
+    }
+  });
+  if (hasNew) {
+    sessionStorage.setItem('utm_params', JSON.stringify(current));
+    return current;
+  }
+  return stored;
+}
+
 function useOrderForm() {
   const [state, setState] = useState<FormState>('idle');
   const [fields, setFields] = useState({ name: '', phone: '', model: '', description: '' });
@@ -23,7 +45,11 @@ function useOrderForm() {
       const res = await fetch(ORDER_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(fields),
+        body: JSON.stringify({
+          ...fields,
+          ...getUtmParams(),
+          page_url: typeof window !== 'undefined' ? window.location.href : '',
+        }),
       });
       setState(res.ok ? 'success' : 'error');
     } catch {

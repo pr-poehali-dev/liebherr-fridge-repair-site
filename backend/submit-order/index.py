@@ -1,4 +1,5 @@
 import json
+import os
 import smtplib
 import ssl
 import time
@@ -12,9 +13,11 @@ SMTP_USER = 'remcentrrbt@yandex.ru'
 SMTP_PASSWORD = 'fyojaodejvtgxkjx'
 SMTP_TO = 'remcentrrbt@yandex.ru'
 
+UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term']
+
 
 def handler(event: dict, context) -> dict:
-    """Приём заявки с сайта: письмо на почту и уведомление в Telegram (без сохранения в БД)."""
+    """Приём заявки с сайта: письмо на почту, уведомление в Telegram и лид в Битрикс24 (с UTM-метками)."""
     headers = {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -24,13 +27,13 @@ def handler(event: dict, context) -> dict:
     if event.get('httpMethod') == 'OPTIONS':
         return {'statusCode': 200, 'headers': headers, 'body': ''}
 
-
-
     body = json.loads(event.get('body') or '{}')
     name = body.get('name', '').strip()
     phone = body.get('phone', '').strip()
     model = body.get('model', '').strip()
     description = body.get('description', '').strip()
+    utm = {k: (body.get(k) or '').strip() for k in UTM_KEYS}
+    page_url = (body.get('page_url') or '').strip()
 
     if not name or not phone:
         return {'statusCode': 400, 'headers': headers, 'body': json.dumps({'error': 'name and phone required'})}
@@ -38,7 +41,7 @@ def handler(event: dict, context) -> dict:
     order_id = int(time.time())
 
     try:
-        _send_email(order_id, name, phone, model, description)
+        _send_email(order_id, name, phone, model, description, utm, page_url)
     except Exception as e:
         print(f'[EMAIL ERROR] {e}')
 
@@ -47,14 +50,24 @@ def handler(event: dict, context) -> dict:
     except Exception as e:
         print(f'[TG ERROR] {e}')
 
+    try:
+        _send_bitrix(order_id, name, phone, model, description, utm, page_url)
+    except Exception as e:
+        print(f'[BITRIX ERROR] {e}')
+
     return {'statusCode': 200, 'headers': headers, 'body': json.dumps({'ok': True, 'id': order_id})}
 
 
-def _send_email(order_id, name, phone, model, description):
+def _send_email(order_id, name, phone, model, description, utm, page_url):
     msg = MIMEMultipart('alternative')
     msg['Subject'] = f'Новая заявка #{order_id} — Ремонт Liebherr'
     msg['From'] = SMTP_USER
     msg['To'] = SMTP_TO
+
+    utm_rows = ''.join(
+        f'<tr><td><b>{k.upper()}:</b></td><td>{v}</td></tr>' for k, v in utm.items() if v
+    )
+    page_row = f'<tr><td><b>Страница:</b></td><td>{page_url}</td></tr>' if page_url else ''
 
     html = f"""
     <html><body style="font-family:Arial,sans-serif;color:#1a2e4a">
@@ -64,6 +77,8 @@ def _send_email(order_id, name, phone, model, description):
       <tr><td><b>Телефон:</b></td><td>{phone}</td></tr>
       <tr><td><b>Модель:</b></td><td>{model or '—'}</td></tr>
       <tr><td><b>Описание:</b></td><td>{description or '—'}</td></tr>
+      {page_row}
+      {utm_rows}
     </table>
     </body></html>
     """
@@ -94,3 +109,39 @@ def _send_telegram(order_id, name, phone, model, description):
                 break
             except Exception as e:
                 print(f'[TG ERROR] chat_id={chat_id} attempt={attempt + 1}: {e}')
+
+
+def _send_bitrix(order_id, name, phone, model, description, utm, page_url):
+    webhook_url = os.environ.get('BITRIX24_WEBHOOK_URL')
+    if not webhook_url:
+        print('[BITRIX ERROR] BITRIX24_WEBHOOK_URL is not set')
+        return
+
+    comments_parts = []
+    if model:
+        comments_parts.append(f'Модель: {model}')
+    if description:
+        comments_parts.append(f'Описание: {description}')
+    if page_url:
+        comments_parts.append(f'Страница: {page_url}')
+    comments = '\n'.join(comments_parts)
+
+    fields = {
+        'TITLE': f'Заявка с сайта #{order_id} — Ремонт Liebherr',
+        'NAME': name,
+        'PHONE': [{'VALUE': phone, 'VALUE_TYPE': 'WORK'}],
+        'COMMENTS': comments,
+        'SOURCE_ID': 'WEB',
+    }
+    for k in UTM_KEYS:
+        if utm.get(k):
+            fields[k.upper()] = utm[k]
+
+    payload = json.dumps({'fields': fields, 'params': {'REGISTER_SONET': 'Y'}}).encode()
+    req = urllib.request.Request(webhook_url, data=payload, headers={'Content-Type': 'application/json'})
+    for attempt in range(2):
+        try:
+            urllib.request.urlopen(req, timeout=4)
+            break
+        except Exception as e:
+            print(f'[BITRIX ERROR] attempt={attempt + 1}: {e}')
