@@ -17,7 +17,7 @@
       "name": "Успешная заявка",
       "method": "POST",
       "path": "/",
-      "body": {"name": "Тест", "phone": "+79001234567", "model": "Liebherr CBN 4898", "description": "Не морозит", "utm_source": "yandex", "utm_medium": "cpc", "utm_campaign": "liebherr", "page_url": "https://example.com/?utm_source=yandex"},
+      "body": {"phone": "+79001234567", "model": "Liebherr CBN 4898", "description": "Не морозит", "utm_source": "yandex", "utm_medium": "cpc", "utm_campaign": "liebherr", "page_url": "https://example.com/?utm_source=yandex"},
       "expectedStatus": 200
     }
   ]

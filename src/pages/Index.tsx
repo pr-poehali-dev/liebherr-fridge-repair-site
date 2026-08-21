@@ -32,14 +32,14 @@ function getUtmParams() {
 
 function useOrderForm() {
   const [state, setState] = useState<FormState>('idle');
-  const [fields, setFields] = useState({ name: '', phone: '', model: '', description: '' });
+  const [fields, setFields] = useState({ phone: '', model: '', description: '' });
 
   const set = (k: keyof typeof fields) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setFields((f) => ({ ...f, [k]: e.target.value }));
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!fields.name || !fields.phone) return;
+    if (!fields.phone) return;
     setState('loading');
     try {
       const res = await fetch(ORDER_URL, {
@@ -139,7 +139,6 @@ const OrderForm = ({ className = '' }: { className?: string }) => {
       <h2 className="font-display text-2xl font-600 text-primary">Вызвать мастера на дом</h2>
       <p className="mt-1 text-sm text-muted-foreground">Перезвоним в течение 5 минут и согласуем время выезда</p>
       <div className="mt-6 space-y-4">
-        <Input placeholder="Ваше имя *" value={fields.name} onChange={set('name')} required />
         <Input placeholder="Телефон *" type="tel" value={fields.phone} onChange={set('phone')} required />
         <Textarea placeholder="Опишите проблему" rows={3} value={fields.description} onChange={set('description')} />
         {state === 'error' && (
@@ -188,7 +187,6 @@ const QuickOrderModal = ({ open, onClose }: { open: boolean; onClose: () => void
               </button>
             </div>
             <div className="mt-6 space-y-4">
-              <Input placeholder="Ваше имя *" value={fields.name} onChange={set('name')} required />
               <Input placeholder="Телефон *" type="tel" value={fields.phone} onChange={set('phone')} required />
               {state === 'error' && (
                 <p className="text-sm text-red-500">Произошла ошибка. Позвоните нам напрямую.</p>
