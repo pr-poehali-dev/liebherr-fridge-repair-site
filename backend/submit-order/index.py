@@ -124,11 +124,14 @@ def _send_bitrix(order_id, phone, model, description, utm, page_url):
         comments_parts.append(f'Страница: {page_url}')
     comments = '\n'.join(comments_parts)
 
+    utm_source = (utm.get('utm_source') or '').lower()
+    source_id = 'YANDEX_DIRECT' if utm_source in ('yandex', 'direct') else 'WEB'
+
     fields = {
         'TITLE': f'Заявка с сайта #{order_id} — Ремонт Liebherr',
         'PHONE': [{'VALUE': phone, 'VALUE_TYPE': 'WORK'}],
         'COMMENTS': comments,
-        'SOURCE_ID': 'WEB',
+        'SOURCE_ID': source_id,
     }
     for k in UTM_KEYS:
         if utm.get(k):
