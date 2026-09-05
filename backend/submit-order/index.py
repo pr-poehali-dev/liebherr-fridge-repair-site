@@ -132,6 +132,7 @@ def _send_bitrix(order_id, phone, model, description, utm, page_url):
         'PHONE': [{'VALUE': phone, 'VALUE_TYPE': 'WORK'}],
         'COMMENTS': comments,
         'SOURCE_ID': source_id,
+        'CATEGORY_ID': 5,
     }
     for k in UTM_KEYS:
         if utm.get(k):
