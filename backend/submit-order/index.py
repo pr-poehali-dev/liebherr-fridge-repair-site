@@ -115,7 +115,7 @@ def _send_bitrix(order_id, phone, model, description, utm, page_url):
         print('[BITRIX ERROR] BITRIX24_WEBHOOK_URL is not set')
         return
 
-    comments_parts = []
+    comments_parts = [f'Телефон: {phone}']
     if model:
         comments_parts.append(f'Модель: {model}')
     if description:
@@ -129,7 +129,6 @@ def _send_bitrix(order_id, phone, model, description, utm, page_url):
 
     fields = {
         'TITLE': f'Заявка с сайта #{order_id} — Ремонт Liebherr',
-        'PHONE': [{'VALUE': phone, 'VALUE_TYPE': 'WORK'}],
         'COMMENTS': comments,
         'SOURCE_ID': source_id,
         'CATEGORY_ID': 5,
@@ -138,8 +137,9 @@ def _send_bitrix(order_id, phone, model, description, utm, page_url):
         if utm.get(k):
             fields[k.upper()] = utm[k]
 
+    deal_webhook_url = webhook_url.rsplit('/', 1)[0] + '/crm.deal.add.json'
     payload = json.dumps({'fields': fields, 'params': {'REGISTER_SONET': 'Y'}}).encode()
-    req = urllib.request.Request(webhook_url, data=payload, headers={'Content-Type': 'application/json'})
+    req = urllib.request.Request(deal_webhook_url, data=payload, headers={'Content-Type': 'application/json'})
     for attempt in range(2):
         try:
             urllib.request.urlopen(req, timeout=4)
