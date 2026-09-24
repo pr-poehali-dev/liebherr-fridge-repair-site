@@ -10,7 +10,7 @@ UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term
 
 
 def handler(event: dict, context) -> dict:
-    """Приём заявки с сайта: письмо на почту, уведомление в Telegram и лид в Битрикс24 (с UTM-метками)."""
+    """Приём заявки с сайта: письмо на почту и сделка в Битрикс24 (с UTM-метками)."""
     headers = {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -36,11 +36,6 @@ def handler(event: dict, context) -> dict:
         _send_email(order_id, phone, model, description, utm, page_url)
     except Exception as e:
         print(f'[EMAIL ERROR] {e}')
-
-    try:
-        _send_telegram(order_id, phone, model, description)
-    except Exception as e:
-        print(f'[TG ERROR] {e}')
 
     try:
         _send_bitrix(order_id, phone, model, description, utm, page_url)
@@ -90,31 +85,6 @@ def _send_email(order_id, phone, model, description, utm, page_url):
     with smtplib.SMTP_SSL(smtp_host, smtp_port, context=ctx) as smtp:
         smtp.login(smtp_user, smtp_password)
         smtp.send_message(msg)
-
-
-def _send_telegram(order_id, phone, model, description):
-    token = os.environ.get('TELEGRAM_BOT_TOKEN')
-    chat_id_env = os.environ.get('TELEGRAM_CHAT_ID')
-    if not token or not chat_id_env:
-        print('[TG ERROR] TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID is not set')
-        return
-    chat_ids = [c.strip() for c in chat_id_env.split(',') if c.strip()]
-
-    text = (
-        f'Новая заявка #{order_id} на ремонт Liebherr\n'
-        f'Модель: {model or "—"}\n'
-        f'Описание: {description or "—"}'
-    )
-    url = f'https://api.telegram.org/bot{token}/sendMessage'
-    for chat_id in chat_ids:
-        data = json.dumps({'chat_id': chat_id, 'text': text}).encode()
-        for attempt in range(2):
-            try:
-                req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
-                urllib.request.urlopen(req, timeout=4)
-                break
-            except Exception as e:
-                print(f'[TG ERROR] chat_id={chat_id} attempt={attempt + 1}: {e}')
 
 
 def _send_bitrix(order_id, phone, model, description, utm, page_url):
