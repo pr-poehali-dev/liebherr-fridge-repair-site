@@ -4,14 +4,7 @@ import smtplib
 import ssl
 import time
 import urllib.request
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-
-SMTP_HOST = 'smtp.yandex.ru'
-SMTP_PORT = 465
-SMTP_USER = 'remcentrrbt@yandex.ru'
-SMTP_PASSWORD = 'fyojaodejvtgxkjx'
-SMTP_TO = 'remcentrrbt@yandex.ru'
+from email.message import EmailMessage
 
 UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term']
 
@@ -58,10 +51,20 @@ def handler(event: dict, context) -> dict:
 
 
 def _send_email(order_id, phone, model, description, utm, page_url):
-    msg = MIMEMultipart('alternative')
+    smtp_host = os.environ.get('SMTP_HOST')
+    smtp_port = int(os.environ.get('SMTP_PORT', '465'))
+    smtp_user = os.environ.get('SMTP_USER')
+    smtp_password = os.environ.get('SMTP_PASSWORD')
+    smtp_to = os.environ.get('SMTP_TO')
+
+    if not all([smtp_host, smtp_user, smtp_password, smtp_to]):
+        print('[EMAIL ERROR] SMTP env vars are not fully set')
+        return
+
+    msg = EmailMessage()
     msg['Subject'] = f'Новая заявка #{order_id} — Ремонт Liebherr'
-    msg['From'] = SMTP_USER
-    msg['To'] = SMTP_TO
+    msg['From'] = smtp_user
+    msg['To'] = smtp_to
 
     utm_rows = ''.join(
         f'<tr><td><b>{k.upper()}:</b></td><td>{v}</td></tr>' for k, v in utm.items() if v
@@ -80,17 +83,22 @@ def _send_email(order_id, phone, model, description, utm, page_url):
     </table>
     </body></html>
     """
-    msg.attach(MIMEText(html, 'html'))
+    msg.set_content('Смотрите письмо в HTML-формате.')
+    msg.add_alternative(html, subtype='html')
 
     ctx = ssl.create_default_context()
-    with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, context=ctx) as smtp:
-        smtp.login(SMTP_USER, SMTP_PASSWORD)
-        smtp.sendmail(SMTP_USER, SMTP_TO, msg.as_string())
+    with smtplib.SMTP_SSL(smtp_host, smtp_port, context=ctx) as smtp:
+        smtp.login(smtp_user, smtp_password)
+        smtp.send_message(msg)
 
 
 def _send_telegram(order_id, phone, model, description):
-    token = '8860543615:AAGXKQ6K4PnliIQ4QCZSv1oxWe21FH7Lt0o'
-    chat_ids = ['1719888709', '8383018904']
+    token = os.environ.get('TELEGRAM_BOT_TOKEN')
+    chat_id_env = os.environ.get('TELEGRAM_CHAT_ID')
+    if not token or not chat_id_env:
+        print('[TG ERROR] TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID is not set')
+        return
+    chat_ids = [c.strip() for c in chat_id_env.split(',') if c.strip()]
 
     text = (
         f'Новая заявка #{order_id} на ремонт Liebherr\n'
