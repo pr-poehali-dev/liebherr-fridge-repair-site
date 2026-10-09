@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 const ORDER_URL = 'https://functions.poehali.dev/cdc5da99-f325-4f94-9d93-169dfd398a35';
 
@@ -150,7 +149,7 @@ const OrderForm = ({ className = '' }: { className?: string }) => {
             : <><Icon name="Send" size={18} className="mr-2" /> Оставить заявку</>}
         </Button>
         <p className="text-center text-xs text-muted-foreground">
-          Нажимая кнопку, вы соглашаетесь с <Link to="/privacy" className="underline hover:text-foreground">политикой конфиденциальности</Link>
+          Нажимая кнопку, вы соглашаетесь с <a href="/privacy" className="underline hover:text-foreground">политикой конфиденциальности</a>
         </p>
       </div>
     </form>
@@ -197,7 +196,7 @@ const QuickOrderModal = ({ open, onClose }: { open: boolean; onClose: () => void
                   : <><Icon name="Send" size={18} className="mr-2" /> Оставить заявку</>}
               </Button>
               <p className="text-center text-xs text-muted-foreground">
-                Нажимая кнопку, вы соглашаетесь с <Link to="/privacy" className="underline hover:text-foreground">политикой конфиденциальности</Link>
+                Нажимая кнопку, вы соглашаетесь с <a href="/privacy" className="underline hover:text-foreground">политикой конфиденциальности</a>
               </p>
             </div>
           </form>
@@ -505,7 +504,7 @@ const Index = () => {
             <span className="font-display text-lg font-700 tracking-wide">LIEBHERR СЕРВИС</span>
           </div>
           <p className="text-sm text-primary-foreground/70">© 2012 Сервисный центр Liebherr. Все права защищены.</p>
-          <p className="text-sm text-primary-foreground/50">Не является публичной офертой. <Link to="/privacy" className="underline hover:text-primary-foreground/80">Политика конфиденциальности</Link></p>
+          <p className="text-sm text-primary-foreground/50">Не является публичной офертой. <a href="/privacy" className="underline hover:text-primary-foreground/80">Политика конфиденциальности</a></p>
         </div>
       </footer>
     </div>

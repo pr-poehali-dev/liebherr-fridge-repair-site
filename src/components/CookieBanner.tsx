@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
 const COOKIE_KEY = 'cookie_consent_accepted';
@@ -30,9 +29,9 @@ export default function CookieBanner() {
       <div className="container flex flex-col items-start gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-muted-foreground">
           Мы используем файлы cookie для аналитики, колл-трекинга и защиты от ботов. Продолжая использовать сайт, вы соглашаетесь с{' '}
-          <Link to="/privacy" className="underline hover:text-foreground">
+          <a href="/privacy" className="underline hover:text-foreground">
             политикой конфиденциальности
-          </Link>
+          </a>
           .
         </p>
         <div className="flex shrink-0 gap-2">
