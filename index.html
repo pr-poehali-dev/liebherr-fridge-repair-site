@@ -21,13 +21,41 @@
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS COMMENT! -->
 
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS COMMENT! -->
-    <script src="https://cdn.poehali.dev/intertnal/js/pp-min-2.js"></script>
     <script src="https://cdn.poehali.dev/intertnal/js/route-min.js"></script>
     <script src="https://cdn.poehali.dev/intertnal/js/telemetry-min.js"></script>
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS COMMENT! -->
 
+    <style>
+      html:not(.mgo-ready) .mgo-number { opacity: 0; }
+      .mgo-number { transition: opacity .2s ease; }
+    </style>
+    <script>
+      (function () {
+        var d = document, root = d.documentElement, orig = new WeakMap(), done = false;
+        function ready() {
+          if (done) return;
+          done = true;
+          root.classList.add('mgo-ready');
+          if (obs) obs.disconnect();
+        }
+        function check() {
+          var els = d.querySelectorAll('.mgo-number');
+          for (var i = 0; i < els.length; i++) {
+            var t = els[i].textContent;
+            if (!orig.has(els[i])) { orig.set(els[i], t); }
+            else if (orig.get(els[i]) !== t) { setTimeout(ready, 50); return; }
+          }
+        }
+        var obs = new MutationObserver(check);
+        obs.observe(root, { childList: true, subtree: true, characterData: true });
+        setTimeout(ready, 2500);
+      })();
+    </script>
+
     <meta name="pp-name" value="liebherr-fridge-repair-site">
       <script src="https://cdn.poehali.dev/intertnal/js/inspector-min.js"></script>
+      <script src="https://cdn.poehali.dev/intertnal/js/ve-2.0.0-rc.2.min.js" defer=""></script>
+      <script src="https://cdn.poehali.dev/intertnal/js/pp-min-4.js"></script>
   </head>
 
 <body>

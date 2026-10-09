@@ -120,7 +120,7 @@ export default function Privacy() {
                 <li>Обжаловать действия Оператора в Роскомнадзор (rkn.gov.ru).</li>
               </ul>
               <p className="mt-3">
-                Для реализации своих прав направьте обращение по телефону: <strong>+7 (499) 638-27-51</strong>.
+                Для реализации своих прав направьте обращение по телефону: <strong className="mgo-number">+7 (499) 638-27-51</strong>.
               </p>
             </section>
 
@@ -144,7 +144,7 @@ export default function Privacy() {
                 По вопросам, связанным с обработкой персональных данных, обращайтесь:
               </p>
               <ul className="mt-3 list-disc space-y-2 pl-6">
-                <li>Телефон: <strong>+7 (499) 638-27-51</strong></li>
+                <li>Телефон: <strong className="mgo-number">+7 (499) 638-27-51</strong></li>
                 <li>Сайт: <strong>liebherr-repair.ru</strong></li>
               </ul>
             </section>
